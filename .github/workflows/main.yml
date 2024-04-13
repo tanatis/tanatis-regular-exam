@@ -25,3 +25,26 @@ jobs:
       run: npm run test:unit
     - name: Display softuni username
       run: echo "tanatis"
+      
+  run_ui_test:
+
+    needs: build_and_unit_test
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm install
+    - name: Start the application
+      run: npm run start &
+    - name: Install Playwright
+      run: npx playwright install
+    - name: Run UI test
+      run: npm run test:ui
